@@ -38,7 +38,6 @@
     position: relative;
   }
 
-  /* ── GRADIENT BACKGROUND ── */
   .bg-gradient {
     position: fixed;
     inset: 0;
@@ -49,7 +48,6 @@
     z-index: 0;
   }
 
-  /* ── FLOATING SHAPES ── */
   .floaters {
     position: fixed;
     inset: 0;
@@ -78,7 +76,6 @@
     100% { transform: translateY(0px) translateX(0px) scale(1); }
   }
 
-  /* ── SCENE WRAPPER ── */
   .scene {
     position: relative;
     z-index: 10;
@@ -94,7 +91,6 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── WHISPER TEXT ── */
   .whisper {
     font-family: 'Lora', serif;
     font-style: italic;
@@ -110,9 +106,6 @@
     to   { opacity: 1; }
   }
 
-  /* ══════════════════════════════════════
-     CAMERA BODY
-  ══════════════════════════════════════ */
   .camera {
     width: 380px;
     height: 255px;
@@ -124,11 +117,9 @@
       0 2px 6px rgba(140,120,110,0.18),
       inset 0 1px 2px rgba(255,255,255,0.55),
       inset 0 -2px 4px rgba(0,0,0,0.10);
-    transition: box-shadow 0.3s ease;
   }
 
   .camera::before {
-    /* subtle brushed-metal sheen */
     content: '';
     position: absolute;
     inset: 0;
@@ -142,7 +133,6 @@
     pointer-events: none;
   }
 
-  /* top edge ridge */
   .camera-top-ridge {
     position: absolute;
     top: -4px; left: 30px; right: 30px;
@@ -152,7 +142,6 @@
     box-shadow: 0 -1px 3px rgba(255,255,255,0.5);
   }
 
-  /* mode dial on top right */
   .mode-dial {
     position: absolute;
     top: -10px; right: 48px;
@@ -162,7 +151,6 @@
     box-shadow: 0 -1px 3px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.3);
   }
 
-  /* shutter button */
   .shutter {
     position: absolute;
     top: -8px; right: 88px;
@@ -172,7 +160,6 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.4);
   }
 
-  /* ── VIEWFINDER (top-left) ── */
   .viewfinder-area {
     position: absolute;
     top: 14px; left: 14px;
@@ -207,7 +194,6 @@
     box-shadow: 0 0 4px rgba(204,68,68,0.6);
   }
 
-  /* ── CANON LOGO ── */
   .brand {
     position: absolute;
     bottom: 14px; left: 18px;
@@ -221,7 +207,6 @@
     user-select: none;
   }
 
-  /* ── LCD SCREEN ── */
   .lcd-wrapper {
     position: absolute;
     top: 20px; left: 14px;
@@ -234,6 +219,7 @@
       inset 0 0 0 1px #000,
       2px 3px 8px rgba(0,0,0,0.3);
     overflow: hidden;
+    cursor: pointer;
   }
 
   .lcd-inner {
@@ -244,7 +230,6 @@
     border-radius: 2px;
   }
 
-  /* screen idle state – soft glow */
   .lcd-idle {
     position: absolute;
     inset: 0;
@@ -276,7 +261,6 @@
     text-transform: uppercase;
   }
 
-  /* scanline overlay */
   .scanlines {
     position: absolute;
     inset: 0;
@@ -292,7 +276,6 @@
     border-radius: 2px;
   }
 
-  /* corner reflections */
   .screen-glare {
     position: absolute;
     top: 3px; left: 4px;
@@ -303,7 +286,7 @@
     z-index: 21;
   }
 
-  /* video element */
+  /* ── VIDEO — no transition, just opacity controlled via JS ── */
   #cam-video {
     position: absolute;
     inset: 0;
@@ -311,16 +294,10 @@
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transition: opacity 1s ease;
     z-index: 4;
     border-radius: 2px;
   }
 
-  #cam-video.playing {
-    opacity: 1;
-  }
-
-  /* playback flicker on load */
   @keyframes flickerIn {
     0%   { opacity: 0; }
     15%  { opacity: 0.6; }
@@ -331,11 +308,6 @@
     100% { opacity: 1; }
   }
 
-  #cam-video.flicker {
-    animation: flickerIn 0.7s ease forwards;
-  }
-
-  /* hover play overlay */
   .play-hint {
     position: absolute;
     inset: 0;
@@ -365,7 +337,6 @@
     color: rgba(255,255,255,0.7);
   }
 
-  /* ── RIGHT CONTROLS PANEL ── */
   .controls-panel {
     position: absolute;
     top: 14px; right: 14px;
@@ -377,7 +348,6 @@
     align-items: center;
   }
 
-  /* mode switch */
   .mode-switch {
     width: 100%;
     height: 16px;
@@ -399,7 +369,6 @@
     padding: 0 4px;
   }
 
-  /* MENU button */
   .btn-menu {
     width: 44px; height: 18px;
     background: linear-gradient(to bottom, #c0bcb4, #a8a49c);
@@ -415,7 +384,6 @@
     text-transform: uppercase;
   }
 
-  /* d-pad */
   .dpad-wrap {
     position: relative;
     width: 72px;
@@ -452,17 +420,6 @@
     letter-spacing: 0.06em;
   }
 
-  .dpad-label {
-    position: absolute;
-    top: -14px; left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.32rem;
-    color: #7a7268;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
   .dpad-arrows {
     position: absolute;
     inset: 0;
@@ -475,7 +432,6 @@
     color: #6a6660;
   }
 
-  /* small round buttons */
   .btn-row {
     display: flex;
     gap: 10px;
@@ -492,16 +448,6 @@
     color: #6a6660;
   }
 
-  .btn-sm.red-dot::after {
-    content: '';
-    position: absolute;
-    width: 5px; height: 5px;
-    background: #cc3333;
-    border-radius: 50%;
-    box-shadow: 0 0 3px rgba(204,51,51,0.5);
-  }
-
-  /* speaker grille */
   .speaker {
     align-self: flex-end;
     display: grid;
@@ -517,7 +463,6 @@
     box-shadow: inset 0 0 1px rgba(0,0,0,0.3);
   }
 
-  /* ── STRAP LUG ── */
   .strap-lug {
     position: absolute;
     right: -6px; top: 50%;
@@ -528,9 +473,6 @@
     box-shadow: 2px 0 4px rgba(0,0,0,0.15);
   }
 
-
-
-  /* ── BOTTOM TAGLINE ── */
   .tagline {
     font-family: 'Lora', serif;
     font-style: italic;
@@ -541,7 +483,6 @@
     animation: whisperIn 2.4s ease 2.2s forwards;
   }
 
-  /* ── CLICK FLASH EFFECT ── */
   .click-flash {
     position: fixed;
     inset: 0;
@@ -549,11 +490,6 @@
     pointer-events: none;
     opacity: 0;
     z-index: 100;
-    transition: opacity 0.05s ease;
-  }
-
-  .click-flash.active {
-    animation: flashOut 0.35s ease forwards;
   }
 
   @keyframes flashOut {
@@ -561,7 +497,6 @@
     100% { opacity: 0; }
   }
 
-  /* responsive */
   @media (max-width: 460px) {
     .camera { width: 310px; height: 210px; }
     .lcd-wrapper { width: 162px; height: 128px; top: 16px; left: 12px; }
@@ -584,29 +519,26 @@
 
 <div class="scene">
 
-  <p class="whisper">wait — there's something i wanted you to see</p>
+  <p class="whisper">Kritika… I’m just a boy, standing in front of a girl, asking her to be his girlfriend.</p>
 
-  <!-- ════ CAMERA ════ -->
   <div class="camera">
     <div class="camera-top-ridge"></div>
     <div class="mode-dial"></div>
     <div class="shutter"></div>
     <div class="strap-lug"></div>
 
-    <!-- viewfinder -->
     <div class="viewfinder-area">
       <div class="viewfinder"></div>
       <div class="af-lamp"></div>
     </div>
 
-    <!-- LCD -->
     <div class="lcd-wrapper" id="lcd-wrapper">
       <div class="lcd-inner">
         <div class="lcd-idle" id="lcd-idle">
           <div class="idle-icon">▶</div>
           <div class="idle-text">loading a memory…</div>
         </div>
-        <video id="cam-video" playsinline loop muted></video>
+        <video id="cam-video" playsinline loop></video>
         <div class="scanlines"></div>
         <div class="screen-glare"></div>
         <div class="play-hint" id="play-hint">
@@ -615,10 +547,8 @@
       </div>
     </div>
 
-    <!-- brand -->
     <div class="brand">Canon</div>
 
-    <!-- right controls -->
     <div class="controls-panel">
       <div class="mode-switch">
         <div class="mode-switch-icons">
@@ -651,11 +581,8 @@
     </div>
 
   </div>
-  <!-- end camera -->
 
-
-
-  <p class="tagline">every frame kept with care ✦</p>
+  <p class="tagline"></p>
 
 </div>
 
@@ -667,14 +594,13 @@
   const flash      = document.getElementById('flash');
   const lcdWrapper = document.getElementById('lcd-wrapper');
 
-  let hasVideo = true;
-  let videoLoaded = true;
-
   const VIDEO_SRC = 'video/video.mp4';
+  let isReady = false;
+
   function triggerFlash() {
-    flash.classList.remove('active');
+    flash.style.animation = 'none';
     void flash.offsetWidth;
-    flash.classList.add('active');
+    flash.style.animation = 'flashOut 0.35s ease forwards';
   }
 
   function playClick() {
@@ -692,85 +618,80 @@
     } catch(e) {}
   }
 
-  function startPlayback() {
-    video.classList.remove('playing', 'flicker');
+  function showVideo() {
+    // Run flicker animation, then lock opacity at 1 via inline style
+    video.style.opacity = '0';
+    video.style.animation = 'none';
     void video.offsetWidth;
-    video.classList.add('flicker', 'playing');
-    setTimeout(() => {
-      // Try unmuted first; fall back to muted if browser blocks it
-      video.muted = false;
-      video.play().catch(() => {
-        video.muted = true;
-        video.play().catch(() => {});
-      });
-      playHint.classList.add('visible');
-      playBtn.textContent = '⏸';
-      hasVideo = true;
-    }, 200);
+    video.style.animation = 'flickerIn 0.7s ease forwards';
+    video.addEventListener('animationend', () => {
+      video.style.animation = 'none';
+      video.style.opacity = '1';
+    }, { once: true });
   }
 
-  function initVideo() {
-    if (videoLoaded) return;
-    videoLoaded = true;
-
+  function startPlayback() {
     triggerFlash();
     playClick();
 
     idle.style.opacity = '0';
     idle.style.pointerEvents = 'none';
 
-    video.src = VIDEO_SRC;
-    video.load();
+    showVideo();
 
-    video.addEventListener('canplay', startPlayback, { once: true });
+    video.muted = false;
+    video.play().catch(() => {
+      video.muted = true;
+      video.play().catch(() => {});
+    });
 
-    video.addEventListener('error', () => {
-      idle.style.opacity = '1';
-      idle.style.pointerEvents = 'auto';
-      idle.querySelector('.idle-text').textContent = 'tap to play';
-      videoLoaded = false;
-    }, { once: true });
+    playHint.classList.add('visible');
+    playBtn.textContent = '⏸';
+    isReady = true;
   }
 
-  // Try silent autoplay on load; if blocked, user tap on idle screen will trigger it
-  window.addEventListener('DOMContentLoaded', () => {
-    video.src = VIDEO_SRC;
-    video.muted = false;
-    video.load();
+  // Load video
+  video.src = VIDEO_SRC;
+  video.load();
 
-    video.addEventListener('canplay', () => {
-      if (hasVideo) return;
+  video.addEventListener('canplay', () => {
+    // Try autoplay
+    video.muted = true;
+    video.play().then(() => {
+      // Autoplay worked — show it
       idle.style.opacity = '0';
       idle.style.pointerEvents = 'none';
-      video.classList.add('flicker', 'playing');
-      video.play().then(() => {
-        playHint.classList.add('visible');
-        playBtn.textContent = '⏸';
-        hasVideo = true;
-        videoLoaded = true;
-      }).catch(() => {
-        // Autoplay blocked — wait for user tap
-        idle.style.opacity = '1';
-        idle.style.pointerEvents = 'auto';
-      });
-    }, { once: true });
+      showVideo();
+      playHint.classList.add('visible');
+      playBtn.textContent = '⏸';
+      isReady = true;
+      // Try unmuting
+      video.muted = false;
+    }).catch(() => {
+      // Autoplay blocked — wait for tap
+      idle.querySelector('.idle-text').textContent = 'tap to play';
+    });
+  }, { once: true });
+
+  video.addEventListener('error', () => {
+    idle.querySelector('.idle-text').textContent = 'no video found';
   });
 
-  // Idle screen tap → start video with sound
+  // Idle screen tap
   idle.addEventListener('click', () => {
-    if (!videoLoaded) {
-      initVideo();
-    } else if (hasVideo) {
+    if (!isReady) {
+      startPlayback();
+    } else {
       video.muted = false;
       video.play().catch(() => {});
       playBtn.textContent = '⏸';
     }
   });
 
-  // LCD tap → play / pause toggle
+  // LCD tap — play/pause toggle
   lcdWrapper.addEventListener('click', (e) => {
-    if (e.target.closest('#lcd-idle')) return; // handled above
-    if (!hasVideo) { initVideo(); return; }
+    if (e.target.closest('#lcd-idle')) return;
+    if (!isReady) { startPlayback(); return; }
     if (video.paused) {
       video.play();
       playBtn.textContent = '⏸';

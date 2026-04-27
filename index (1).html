@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>something i wanted you to see</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital@0;1&family=Quicksand:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blush: #f5cfe0;
+    --lavender: #ddd6f3;
+    --cream: #fdf6f0;
+    --petal: #f9e4ef;
+    --dusty: #c9b8d8;
+    --silver: #c8c2b8;
+    --silver-dark: #a09890;
+    --camera-body: #d4cfc8;
+    --camera-shadow: #b8b0a4;
+    --screen-bg: #0a0a0a;
+    --text-soft: #9b8fa0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* ── GRADIENT BACKGROUND ── */
+  .bg-gradient {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 40%, #f9d8e8 0%, transparent 55%),
+                radial-gradient(ellipse at 75% 70%, #ddd0f5 0%, transparent 55%),
+                radial-gradient(ellipse at 60% 20%, #fce4d6 0%, transparent 45%),
+                #fdf6f0;
+    z-index: 0;
+  }
+
+  /* ── FLOATING SHAPES ── */
+  .floaters {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .floater {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.18;
+    animation: drift linear infinite;
+  }
+
+  .floater:nth-child(1) { width:180px; height:180px; background: var(--blush); top:10%; left:8%; animation-duration:28s; animation-delay:-4s; }
+  .floater:nth-child(2) { width:90px;  height:90px;  background: var(--lavender); top:60%; left:75%; animation-duration:22s; animation-delay:-12s; }
+  .floater:nth-child(3) { width:130px; height:130px; background: #fce4d6; top:80%; left:20%; animation-duration:34s; animation-delay:-8s; }
+  .floater:nth-child(4) { width:60px;  height:60px;  background: var(--dusty); top:30%; left:85%; animation-duration:19s; animation-delay:-16s; }
+  .floater:nth-child(5) { width:200px; height:200px; background: #f5e6f8; top:-5%; left:55%; animation-duration:40s; animation-delay:-2s; }
+
+  @keyframes drift {
+    0%   { transform: translateY(0px) translateX(0px) scale(1); }
+    33%  { transform: translateY(-18px) translateX(10px) scale(1.03); }
+    66%  { transform: translateY(10px) translateX(-8px) scale(0.97); }
+    100% { transform: translateY(0px) translateX(0px) scale(1); }
+  }
+
+  /* ── SCENE WRAPPER ── */
+  .scene {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    animation: fadeIn 1.8s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── WHISPER TEXT ── */
+  .whisper {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    letter-spacing: 0.06em;
+    opacity: 0;
+    animation: whisperIn 2.4s ease 0.6s forwards;
+  }
+
+  @keyframes whisperIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ══════════════════════════════════════
+     CAMERA BODY
+  ══════════════════════════════════════ */
+  .camera {
+    width: 380px;
+    height: 255px;
+    background: linear-gradient(160deg, #ddd8d0 0%, #ccc6bc 40%, #bfb9b0 100%);
+    border-radius: 22px 22px 18px 18px;
+    position: relative;
+    box-shadow:
+      0 6px 28px rgba(140,120,110,0.28),
+      0 2px 6px rgba(140,120,110,0.18),
+      inset 0 1px 2px rgba(255,255,255,0.55),
+      inset 0 -2px 4px rgba(0,0,0,0.10);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .camera::before {
+    /* subtle brushed-metal sheen */
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: repeating-linear-gradient(
+      92deg,
+      transparent 0px,
+      rgba(255,255,255,0.04) 1px,
+      transparent 2px
+    );
+    pointer-events: none;
+  }
+
+  /* top edge ridge */
+  .camera-top-ridge {
+    position: absolute;
+    top: -4px; left: 30px; right: 30px;
+    height: 8px;
+    background: linear-gradient(to bottom, #e2ddd6, #ccc6bc);
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 -1px 3px rgba(255,255,255,0.5);
+  }
+
+  /* mode dial on top right */
+  .mode-dial {
+    position: absolute;
+    top: -10px; right: 48px;
+    width: 32px; height: 18px;
+    background: linear-gradient(to bottom, #bfbbb3, #a8a49c);
+    border-radius: 6px 6px 4px 4px;
+    box-shadow: 0 -1px 3px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.3);
+  }
+
+  /* shutter button */
+  .shutter {
+    position: absolute;
+    top: -8px; right: 88px;
+    width: 22px; height: 14px;
+    background: linear-gradient(to bottom, #d4d0c8, #b8b4ac);
+    border-radius: 50% 50% 4px 4px / 60% 60% 4px 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.4);
+  }
+
+  /* ── VIEWFINDER (top-left) ── */
+  .viewfinder-area {
+    position: absolute;
+    top: 14px; left: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .viewfinder {
+    width: 26px; height: 20px;
+    background: #1a1a22;
+    border-radius: 4px;
+    border: 2px solid #888;
+    box-shadow: inset 0 0 4px #000, 0 1px 2px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .viewfinder::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 6px; height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+  }
+
+  .af-lamp {
+    width: 7px; height: 7px;
+    background: #cc4444;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(204,68,68,0.6);
+  }
+
+  /* ── CANON LOGO ── */
+  .brand {
+    position: absolute;
+    bottom: 14px; left: 18px;
+    font-family: 'Lora', serif;
+    font-size: 0.78rem;
+    font-style: italic;
+    font-weight: 400;
+    color: #7a7268;
+    letter-spacing: 0.04em;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.6);
+    user-select: none;
+  }
+
+  /* ── LCD SCREEN ── */
+  .lcd-wrapper {
+    position: absolute;
+    top: 20px; left: 14px;
+    width: 202px; height: 158px;
+    border-radius: 4px;
+    background: #2a2a2a;
+    box-shadow:
+      0 0 0 2px #9a9490,
+      0 0 0 4px #b8b4ac,
+      inset 0 0 0 1px #000,
+      2px 3px 8px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+
+  .lcd-inner {
+    width: 100%; height: 100%;
+    background: var(--screen-bg);
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  /* screen idle state – soft glow */
+  .lcd-idle {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: opacity 0.5s ease;
+    z-index: 5;
+  }
+
+  .lcd-idle .idle-icon {
+    font-size: 1.6rem;
+    opacity: 0.5;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50%       { opacity: 0.7; transform: scale(1.06); }
+  }
+
+  .lcd-idle .idle-text {
+    font-size: 0.48rem;
+    color: #888;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* scanline overlay */
+  .scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 20;
+    border-radius: 2px;
+  }
+
+  /* corner reflections */
+  .screen-glare {
+    position: absolute;
+    top: 3px; left: 4px;
+    width: 40px; height: 14px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 100%);
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 21;
+  }
+
+  /* video element */
+  #cam-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease;
+    z-index: 4;
+    border-radius: 2px;
+  }
+
+  #cam-video.playing {
+    opacity: 1;
+  }
+
+  /* playback flicker on load */
+  @keyframes flickerIn {
+    0%   { opacity: 0; }
+    15%  { opacity: 0.6; }
+    20%  { opacity: 0.1; }
+    35%  { opacity: 0.8; }
+    40%  { opacity: 0.3; }
+    55%  { opacity: 1; }
+    100% { opacity: 1; }
+  }
+
+  #cam-video.flicker {
+    animation: flickerIn 0.7s ease forwards;
+  }
+
+  /* hover play overlay */
+  .play-hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+    cursor: pointer;
+    background: rgba(0,0,0,0.12);
+  }
+
+  .lcd-wrapper:hover .play-hint.visible {
+    opacity: 1;
+  }
+
+  .play-hint-dot {
+    width: 28px; height: 28px;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* ── RIGHT CONTROLS PANEL ── */
+  .controls-panel {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 120px;
+    height: 210px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  /* mode switch */
+  .mode-switch {
+    width: 100%;
+    height: 16px;
+    background: linear-gradient(to right, #b0aca4, #c4c0b8);
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2), 0 1px 1px rgba(255,255,255,0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mode-switch-icons {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 0.42rem;
+    color: #6a6660;
+    padding: 0 4px;
+  }
+
+  /* MENU button */
+  .btn-menu {
+    width: 44px; height: 18px;
+    background: linear-gradient(to bottom, #c0bcb4, #a8a49c);
+    border-radius: 9px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.4);
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.35rem;
+    color: #7a7268;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* d-pad */
+  .dpad-wrap {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+  }
+
+  .dpad-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      #b8b4ac 0deg, #ccc8c0 90deg,
+      #b0aca4 180deg, #c4c0b8 270deg,
+      #b8b4ac 360deg
+    );
+    box-shadow:
+      0 3px 8px rgba(0,0,0,0.25),
+      inset 0 1px 2px rgba(255,255,255,0.3);
+  }
+
+  .dpad-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, #c8c4bc, #b0aca4);
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.38rem;
+    color: #7a7268;
+    letter-spacing: 0.06em;
+  }
+
+  .dpad-label {
+    position: absolute;
+    top: -14px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.32rem;
+    color: #7a7268;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .dpad-arrows {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    font-size: 0.38rem;
+    color: #6a6660;
+  }
+
+  /* small round buttons */
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    align-self: flex-start;
+  }
+
+  .btn-sm {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #c0bcb4, #a8a49c);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.38rem;
+    color: #6a6660;
+  }
+
+  .btn-sm.red-dot::after {
+    content: '';
+    position: absolute;
+    width: 5px; height: 5px;
+    background: #cc3333;
+    border-radius: 50%;
+    box-shadow: 0 0 3px rgba(204,51,51,0.5);
+  }
+
+  /* speaker grille */
+  .speaker {
+    align-self: flex-end;
+    display: grid;
+    grid-template-columns: repeat(5, 3px);
+    grid-template-rows: repeat(3, 3px);
+    gap: 2px;
+  }
+
+  .speaker-dot {
+    width: 3px; height: 3px;
+    background: #a09890;
+    border-radius: 50%;
+    box-shadow: inset 0 0 1px rgba(0,0,0,0.3);
+  }
+
+  /* ── STRAP LUG ── */
+  .strap-lug {
+    position: absolute;
+    right: -6px; top: 50%;
+    transform: translateY(-50%);
+    width: 10px; height: 30px;
+    background: linear-gradient(to right, #b8b4ac, #ccc8c0);
+    border-radius: 0 4px 4px 0;
+    box-shadow: 2px 0 4px rgba(0,0,0,0.15);
+  }
+
+
+
+  /* ── BOTTOM TAGLINE ── */
+  .tagline {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 0.7rem;
+    color: rgba(155,143,160,0.6);
+    letter-spacing: 0.05em;
+    opacity: 0;
+    animation: whisperIn 2.4s ease 2.2s forwards;
+  }
+
+  /* ── CLICK FLASH EFFECT ── */
+  .click-flash {
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.7);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 100;
+    transition: opacity 0.05s ease;
+  }
+
+  .click-flash.active {
+    animation: flashOut 0.35s ease forwards;
+  }
+
+  @keyframes flashOut {
+    0%   { opacity: 0.6; }
+    100% { opacity: 0; }
+  }
+
+  /* responsive */
+  @media (max-width: 460px) {
+    .camera { width: 310px; height: 210px; }
+    .lcd-wrapper { width: 162px; height: 128px; top: 16px; left: 12px; }
+    .controls-panel { width: 100px; right: 10px; top: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-gradient"></div>
+<div class="floaters">
+  <div class="floater"></div>
+  <div class="floater"></div>
+  <div class="floater"></div>
+  <div class="floater"></div>
+  <div class="floater"></div>
+</div>
+
+<div class="click-flash" id="flash"></div>
+
+<div class="scene">
+
+  <p class="whisper">wait — there's something i wanted you to see</p>
+
+  <!-- ════ CAMERA ════ -->
+  <div class="camera">
+    <div class="camera-top-ridge"></div>
+    <div class="mode-dial"></div>
+    <div class="shutter"></div>
+    <div class="strap-lug"></div>
+
+    <!-- viewfinder -->
+    <div class="viewfinder-area">
+      <div class="viewfinder"></div>
+      <div class="af-lamp"></div>
+    </div>
+
+    <!-- LCD -->
+    <div class="lcd-wrapper" id="lcd-wrapper">
+      <div class="lcd-inner">
+        <div class="lcd-idle" id="lcd-idle">
+          <div class="idle-icon">▶</div>
+          <div class="idle-text">loading a memory…</div>
+        </div>
+        <video id="cam-video" playsinline loop></video>
+        <div class="scanlines"></div>
+        <div class="screen-glare"></div>
+        <div class="play-hint" id="play-hint">
+          <div class="play-hint-dot" id="play-btn">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- brand -->
+    <div class="brand">Canon</div>
+
+    <!-- right controls -->
+    <div class="controls-panel">
+      <div class="mode-switch">
+        <div class="mode-switch-icons">
+          <span>▶</span><span>—</span><span>⚙</span><span>📷</span>
+        </div>
+      </div>
+      <div class="btn-menu">MENU</div>
+      <div class="dpad-wrap">
+        <div class="dpad-ring"></div>
+        <div class="dpad-arrows">
+          <span></span><span></span><span></span>
+          <span></span><div class="dpad-center">SET</div><span></span>
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="btn-row">
+        <div class="btn-sm"></div>
+        <div class="btn-sm"></div>
+      </div>
+      <div class="speaker">
+        <div class="speaker-dot"></div><div class="speaker-dot"></div>
+        <div class="speaker-dot"></div><div class="speaker-dot"></div>
+        <div class="speaker-dot"></div><div class="speaker-dot"></div>
+        <div class="speaker-dot"></div><div class="speaker-dot"></div>
+        <div class="speaker-dot"></div><div class="speaker-dot"></div>
+        <div class="speaker-dot"></div><div class="speaker-dot"></div>
+        <div class="speaker-dot"></div><div class="speaker-dot"></div>
+        <div class="speaker-dot"></div>
+      </div>
+    </div>
+
+  </div>
+  <!-- end camera -->
+
+
+
+  <p class="tagline">every frame kept with care ✦</p>
+
+</div>
+
+<script>
+  const video      = document.getElementById('cam-video');
+  const idle       = document.getElementById('lcd-idle');
+  const playHint   = document.getElementById('play-hint');
+  const playBtn    = document.getElementById('play-btn');
+  const flash      = document.getElementById('flash');
+  const lcdWrapper = document.getElementById('lcd-wrapper');
+
+  let hasVideo = false;
+
+  function triggerFlash() {
+    flash.classList.remove('active');
+    void flash.offsetWidth;
+    flash.classList.add('active');
+  }
+
+  function playClick() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const buf = ctx.createBuffer(1, ctx.sampleRate * 0.04, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 3) * 0.35;
+      }
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(ctx.destination);
+      src.start();
+    } catch(e) {}
+  }
+
+  function loadVideo(src) {
+    triggerFlash();
+    playClick();
+
+    video.src = src;
+    video.load();
+
+    idle.style.opacity = '0';
+    idle.style.pointerEvents = 'none';
+
+    video.addEventListener('canplay', () => {
+      video.classList.remove('playing', 'flicker');
+      void video.offsetWidth;
+      video.classList.add('flicker', 'playing');
+      setTimeout(() => {
+        video.play().catch(() => {});
+        playHint.classList.add('visible');
+        playBtn.textContent = '⏸';
+        hasVideo = true;
+      }, 200);
+    }, { once: true });
+  }
+
+  // Auto-load video from the repo path on page ready
+  window.addEventListener('DOMContentLoaded', () => {
+    loadVideo('video/video.mp4');
+  });
+
+  // Tap the screen to play/pause
+  lcdWrapper.addEventListener('click', () => {
+    if (!hasVideo) return;
+    if (video.paused) {
+      video.play();
+      playBtn.textContent = '⏸';
+    } else {
+      video.pause();
+      playBtn.textContent = '▶';
+    }
+  });
+</script>
+</body>
+</html>

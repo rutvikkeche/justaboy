@@ -667,11 +667,10 @@
   const flash      = document.getElementById('flash');
   const lcdWrapper = document.getElementById('lcd-wrapper');
 
-  let hasVideo = false;
-  let videoLoaded = false;
+  let hasVideo = true;
+  let videoLoaded = true;
 
-  const VIDEO_SRC = 'justaboy/video/video.mp4';
-
+  const VIDEO_SRC = 'video/video.mp4';
   function triggerFlash() {
     flash.classList.remove('active');
     void flash.offsetWidth;
@@ -736,7 +735,7 @@
   // Try silent autoplay on load; if blocked, user tap on idle screen will trigger it
   window.addEventListener('DOMContentLoaded', () => {
     video.src = VIDEO_SRC;
-    video.muted = true;
+    video.muted = false;
     video.load();
 
     video.addEventListener('canplay', () => {

@@ -584,7 +584,7 @@
 
 <div class="scene">
 
-  <p class="whisper">Kritika… I’m just a boy, standing in front of a girl, asking her to be his girlfriend.</p>
+  <p class="whisper">wait — there's something i wanted you to see</p>
 
   <!-- ════ CAMERA ════ -->
   <div class="camera">
@@ -606,7 +606,7 @@
           <div class="idle-icon">▶</div>
           <div class="idle-text">loading a memory…</div>
         </div>
-        <video id="cam-video" playsinline loop></video>
+        <video id="cam-video" playsinline loop muted></video>
         <div class="scanlines"></div>
         <div class="screen-glare"></div>
         <div class="play-hint" id="play-hint">
@@ -655,7 +655,7 @@
 
 
 
-  <p class="tagline"></p>
+  <p class="tagline">every frame kept with care ✦</p>
 
 </div>
 
@@ -668,6 +668,9 @@
   const lcdWrapper = document.getElementById('lcd-wrapper');
 
   let hasVideo = false;
+  let videoLoaded = false;
+
+  const VIDEO_SRC = 'video/video.mp4';
 
   function triggerFlash() {
     flash.classList.remove('active');
@@ -690,37 +693,85 @@
     } catch(e) {}
   }
 
-  function loadVideo(src) {
+  function startPlayback() {
+    video.classList.remove('playing', 'flicker');
+    void video.offsetWidth;
+    video.classList.add('flicker', 'playing');
+    setTimeout(() => {
+      // Try unmuted first; fall back to muted if browser blocks it
+      video.muted = false;
+      video.play().catch(() => {
+        video.muted = true;
+        video.play().catch(() => {});
+      });
+      playHint.classList.add('visible');
+      playBtn.textContent = '⏸';
+      hasVideo = true;
+    }, 200);
+  }
+
+  function initVideo() {
+    if (videoLoaded) return;
+    videoLoaded = true;
+
     triggerFlash();
     playClick();
-
-    video.src = src;
-    video.load();
 
     idle.style.opacity = '0';
     idle.style.pointerEvents = 'none';
 
-    video.addEventListener('canplay', () => {
-      video.classList.remove('playing', 'flicker');
-      void video.offsetWidth;
-      video.classList.add('flicker', 'playing');
-      setTimeout(() => {
-        video.play().catch(() => {});
-        playHint.classList.add('visible');
-        playBtn.textContent = '⏸';
-        hasVideo = true;
-      }, 200);
+    video.src = VIDEO_SRC;
+    video.load();
+
+    video.addEventListener('canplay', startPlayback, { once: true });
+
+    video.addEventListener('error', () => {
+      idle.style.opacity = '1';
+      idle.style.pointerEvents = 'auto';
+      idle.querySelector('.idle-text').textContent = 'tap to play';
+      videoLoaded = false;
     }, { once: true });
   }
 
-  // Auto-load video from the repo path on page ready
+  // Try silent autoplay on load; if blocked, user tap on idle screen will trigger it
   window.addEventListener('DOMContentLoaded', () => {
-    loadVideo('video/video.mp4');
+    video.src = VIDEO_SRC;
+    video.muted = true;
+    video.load();
+
+    video.addEventListener('canplay', () => {
+      if (hasVideo) return;
+      idle.style.opacity = '0';
+      idle.style.pointerEvents = 'none';
+      video.classList.add('flicker', 'playing');
+      video.play().then(() => {
+        playHint.classList.add('visible');
+        playBtn.textContent = '⏸';
+        hasVideo = true;
+        videoLoaded = true;
+      }).catch(() => {
+        // Autoplay blocked — wait for user tap
+        idle.style.opacity = '1';
+        idle.style.pointerEvents = 'auto';
+      });
+    }, { once: true });
   });
 
-  // Tap the screen to play/pause
-  lcdWrapper.addEventListener('click', () => {
-    if (!hasVideo) return;
+  // Idle screen tap → start video with sound
+  idle.addEventListener('click', () => {
+    if (!videoLoaded) {
+      initVideo();
+    } else if (hasVideo) {
+      video.muted = false;
+      video.play().catch(() => {});
+      playBtn.textContent = '⏸';
+    }
+  });
+
+  // LCD tap → play / pause toggle
+  lcdWrapper.addEventListener('click', (e) => {
+    if (e.target.closest('#lcd-idle')) return; // handled above
+    if (!hasVideo) { initVideo(); return; }
     if (video.paused) {
       video.play();
       playBtn.textContent = '⏸';
